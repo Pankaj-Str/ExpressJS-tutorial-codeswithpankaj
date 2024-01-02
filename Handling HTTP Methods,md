@@ -1,0 +1,92 @@
+# ExpressJS - Handling HTTP Methods
+
+HTTP methods play a crucial role in web development, determining the type of action the request wants to perform. ExpressJS simplifies the handling of various HTTP methods, such as GET, POST, PUT, DELETE, and more. In this guide, we'll explore how to handle different HTTP methods in an Express application.
+
+## Basics of HTTP Methods in Express
+
+Express allows you to define routes based on different HTTP methods. Here's a basic example:
+
+```javascript
+const express = require('express');
+const app = express();
+const port = 3000;
+
+// Handling GET requests
+app.get('/', (req, res) => {
+  res.send('GET request received');
+});
+
+// Handling POST requests
+app.post('/', (req, res) => {
+  res.send('POST request received');
+});
+
+// Handling PUT requests
+app.put('/', (req, res) => {
+  res.send('PUT request received');
+});
+
+// Handling DELETE requests
+app.delete('/', (req, res) => {
+  res.send('DELETE request received');
+});
+
+// Start the server
+app.listen(port, () => {
+  console.log(`Server listening at http://localhost:${port}`);
+});
+```
+
+In this example:
+
+- The `app.get` method handles GET requests for the root URL.
+- The `app.post` method handles POST requests for the root URL.
+- The `app.put` method handles PUT requests for the root URL.
+- The `app.delete` method handles DELETE requests for the root URL.
+
+## Handling Dynamic Routes with Parameters
+
+You can handle dynamic data in your routes using parameters. For example:
+
+```javascript
+// Handling GET requests with a parameter
+app.get('/user/:id', (req, res) => {
+  const userId = req.params.id;
+  res.send(`GET request for user with ID ${userId}`);
+});
+
+// Handling PUT requests with a parameter
+app.put('/user/:id', (req, res) => {
+  const userId = req.params.id;
+  res.send(`PUT request to update user with ID ${userId}`);
+});
+```
+
+In this example, the routes `/user/:id` handle GET and PUT requests for a user with a specific ID.
+
+## Middleware for Handling Specific Routes
+
+Middleware functions in Express can be used to handle specific routes or types of requests. For example:
+
+```javascript
+// Middleware for all routes
+app.use((req, res, next) => {
+  console.log(`Received ${req.method} request for ${req.url}`);
+  next();
+});
+
+// Middleware for specific route
+app.get('/protected', (req, res, next) => {
+  // Perform authentication
+  console.log('Authentication middleware for /protected route');
+  next();
+}, (req, res) => {
+  res.send('This is a protected route');
+});
+```
+
+In this example, the first middleware logs information about all incoming requests, and the second middleware is applied only to the `/protected` route, performing authentication before responding.
+
+## Conclusion
+
+Understanding how to handle different HTTP methods in Express is essential for building robust web applications. Whether you're retrieving data with GET, creating resources with POST, updating resources with PUT, or deleting resources with DELETE, Express provides a clean and intuitive way to handle these actions. As you continue to develop with Express, explore additional features like route chaining, error handling, and more to enhance the functionality of your applications.
